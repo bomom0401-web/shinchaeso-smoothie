@@ -1,0 +1,784 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>신채소 스무디 | 나에게 맞는 십자화과 스무디 찾기</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#191F28; --sub:#6B7684; --faint:#B0B8C1; --line:#E5E8EB;
+    --panel:#F4F6F9; --accent:#F57F00; --accent2:#FFB04D; --accent-soft:#FFF1DE; --dark:#191F28; --hl:#FF9000; --accent-deep:#C86400;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:#fff;color:var(--ink);font-family:'Noto Sans KR',sans-serif;line-height:1.65;-webkit-font-smoothing:antialiased;letter-spacing:-0.02em;word-break:keep-all}
+  a{color:inherit;text-decoration:none}
+  button{font-family:inherit;letter-spacing:inherit}
+
+  .strip{display:block;background:var(--accent);color:#fff;text-align:center;font-size:14.5px;font-weight:500;padding:10px 16px}
+  .strip b{font-weight:700;text-decoration:underline;text-underline-offset:3px}
+
+  header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+  .hd{max-width:1120px;margin:0 auto;display:flex;align-items:center;gap:28px;padding:14px 20px}
+  .logo{font-weight:900;font-size:22px;white-space:nowrap;cursor:pointer}
+  .logo b{color:var(--accent);font-weight:900}
+  nav{display:flex;gap:22px;flex:1}
+  nav a{color:var(--sub);font-size:15.5px;white-space:nowrap;cursor:pointer}
+  nav a:hover{color:var(--ink)}
+  .cta{background:var(--dark);color:#fff;border:none;border-radius:999px;padding:11px 20px;font-weight:700;font-size:15px;cursor:pointer;white-space:nowrap}
+
+  /* banner */
+  .banner{max-width:1080px;margin:20px auto 0;aspect-ratio:6.4/1;border-radius:18px;background:#2E1128 url('img/banner.jpg') center/cover no-repeat}
+  .banner-wrap{padding:0 20px;background:linear-gradient(180deg,#fff 0%,#FFF3E3 100%)}
+  .mbr{display:none}
+  /* hero */
+  .hero{background:linear-gradient(180deg,#FFF3E3 0%,#FFFAF3 60%,#fff 100%);padding:32px 20px 28px;text-align:center}
+  .pill{display:inline-block;background:var(--accent-soft);color:var(--accent-deep);font-weight:700;font-size:14px;padding:6px 16px;border-radius:999px}
+  .hero h1{font-weight:900;font-size:42px;line-height:1.3;margin-top:14px;letter-spacing:-0.04em}
+  .hero h1 .grad{color:var(--hl)}
+  .hero .lead{color:#4E5968;font-size:17px;margin-top:12px}
+  .hero-btns{display:flex;justify-content:center;gap:10px;margin-top:22px;flex-wrap:wrap}
+  .hb{border:none;border-radius:16px;padding:15px 28px;font-size:17px;font-weight:700;cursor:pointer}
+  .hb-main{background:var(--accent);color:#fff;box-shadow:0 10px 24px rgba(255,144,0,.30)}
+  .hb-sub{background:var(--panel);color:var(--ink)}
+  .checks{display:flex;justify-content:center;gap:26px;margin-top:28px;color:var(--sub);font-size:15px;flex-wrap:wrap}
+  .checks span:before{content:"✓ ";color:var(--faint)}
+
+  /* shortcut cards */
+  .shortcuts{max-width:1120px;margin:0 auto;padding:24px 20px 40px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:20px}
+  .sc{min-width:0;overflow-wrap:anywhere;border:1px solid var(--line);border-radius:26px;padding:34px 36px;cursor:pointer;transition:border-color .15s,box-shadow .15s;background:#fff}
+  .sc:hover{border-color:var(--accent);box-shadow:0 6px 20px rgba(0,0,0,.05)}
+  .sc .ic{font-size:44px;line-height:1}
+  .sc b{display:block;font-size:22px;font-weight:700;margin-top:22px}
+  .sc small{display:block;color:var(--sub);font-size:16px;margin-top:6px}
+
+  /* sections */
+  section{padding:84px 20px;scroll-margin-top:12px}
+  section.alt{background:var(--panel)}
+  .wrap{max-width:860px;margin:0 auto}
+  .no{display:block;text-align:center;color:var(--hl);font-weight:900;font-size:15px;letter-spacing:.04em}
+  .sec-title{text-align:center;font-weight:900;font-size:36px;line-height:1.32;margin-top:8px}
+  .sec-sub{text-align:center;color:var(--sub);font-size:16.5px;margin-top:12px}
+
+  /* story */
+  .story{background:#fff;border:1px solid var(--line);border-radius:28px;padding:40px;margin-top:36px;font-size:17px}
+  .story p+p{margin-top:16px}
+  .story .hl{font-weight:700;color:var(--hl)}
+  .story .note{color:var(--sub);font-size:15px;background:var(--panel);border-radius:14px;padding:14px 18px;margin-top:20px}
+
+  .sphotos{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:22px 0 28px}
+  .sphotos figure{margin:0}
+  .sphotos figure.wide{grid-column:1/-1}
+  .sphotos img{width:100%;display:block;border-radius:18px}
+  .sphotos figcaption{font-size:14px;color:var(--sub);text-align:center;margin-top:8px}
+  /* quiz box */
+  .box{background:var(--panel);border-radius:32px;padding:44px 48px;margin-top:36px;scroll-margin-top:16px}
+  section.alt .box{background:#fff}
+  section.alt .box .opt, section.alt .box .rc{background:var(--panel)}
+  .meta{display:flex;justify-content:space-between;color:var(--sub);font-size:15px}
+  .bar{height:6px;background:var(--line);border-radius:999px;margin:14px 0 40px;overflow:hidden}
+  .bar i{display:block;height:100%;background:var(--accent);border-radius:999px;transition:width .3s}
+  .q{font-weight:900;font-size:32px;line-height:1.35}
+  .q-help{color:var(--sub);font-size:16px;margin:10px 0 28px}
+  .opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .opt{background:#fff;border:2px solid transparent;border-radius:20px;padding:22px 20px;display:flex;align-items:center;gap:16px;text-align:left;cursor:pointer;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:border-color .15s}
+  .opt:hover{border-color:var(--accent)}
+  .opt.sel{border-color:var(--accent);background:var(--accent-soft)!important}
+  .opt .ic{font-size:30px;width:36px;text-align:center;flex-shrink:0}
+  .opt .dot{width:34px;height:34px;border-radius:50%;flex-shrink:0;box-shadow:inset -4px -5px 0 rgba(0,0,0,.08)}
+  .opt b{display:block;font-size:18px;font-weight:700;color:var(--ink)}
+  .opt small{display:block;font-size:14.5px;color:var(--sub);margin-top:2px}
+  .nav-row{display:flex;justify-content:space-between;margin-top:32px}
+  .nav-row button{background:none;border:none;font-size:16px;color:var(--sub);cursor:pointer;padding:6px 8px}
+  .nav-row button[disabled]{color:var(--faint);cursor:default}
+
+  /* result */
+  .r-top{text-align:center}
+  .r-top .lbl{color:var(--sub);font-size:16px}
+  .r-blob{width:88px;height:88px;border-radius:50%;margin:18px auto 14px;box-shadow:inset -9px -11px 0 rgba(0,0,0,.08)}
+  .r-top h3{font-weight:900;font-size:34px}
+  .r-top p{color:var(--sub);margin-top:6px}
+  .made{display:inline-block;margin-top:12px;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:13.5px;padding:5px 12px;border-radius:999px}
+  .rc{background:#fff;border-radius:20px;padding:24px;margin-top:14px}
+  .rc h4{font-size:18px;font-weight:700;margin-bottom:12px}
+  .why li{list-style:none;padding-left:24px;position:relative;margin:6px 0}
+  .why li:before{content:"✓";position:absolute;left:2px;color:var(--accent);font-weight:900}
+  .ing{width:100%;border-collapse:collapse;font-size:15.5px}
+  .ing td{padding:9px 0;border-bottom:1px solid var(--line)}
+  .ing td:first-child{font-weight:700;width:36%}
+  .ing td:last-child{color:var(--sub)}
+  .ing tr.sep td{border-bottom:2px solid var(--ink);padding:0}
+  .steps{list-style:none;counter-reset:s}
+  .steps li{counter-increment:s;position:relative;padding-left:34px;margin:10px 0}
+  .steps li:before{content:counter(s);position:absolute;left:0;top:2px;width:22px;height:22px;border-radius:50%;background:var(--ink);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+  .keep li{list-style:none;margin:6px 0}
+  .small{font-size:14px;color:var(--sub);margin-top:10px}
+  .tip{background:var(--accent-soft)!important}
+  .tip h4{color:var(--accent)}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chips a{background:var(--panel);border-radius:999px;padding:8px 14px;font-size:14.5px}
+  section.alt .rc .chips a{background:#fff}
+  .chips a:after{content:" ›";color:var(--accent);font-weight:700}
+  .busybox{background:var(--dark)!important;color:#fff}
+  .busybox p{color:#D1D6DB}
+  .busybox ul{list-style:none;margin:12px 0 18px}
+  .btn{display:block;width:100%;text-align:center;border:none;border-radius:16px;padding:16px;font-size:17px;font-weight:700;cursor:pointer}
+  .btn-white{background:#fff;color:var(--ink)}
+  .btn-dark{background:var(--dark);color:#fff}
+  .btn-green{background:var(--accent);color:#fff}
+  .btn-line{background:transparent;color:var(--sub);font-weight:500}
+  .disc{font-size:12.5px;color:#8B95A1;margin-top:12px;line-height:1.55}
+
+  /* recipe grid */
+  .sub-h{font-weight:900;font-size:24px;text-align:center;margin-top:64px}
+  .grid6{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px}
+  .pc{background:#fff;border:1px solid var(--line);border-radius:24px;overflow:hidden;cursor:pointer;transition:box-shadow .15s,transform .15s;display:flex;flex-direction:column}
+  .pc:hover{box-shadow:0 10px 28px rgba(0,0,0,.08);transform:translateY(-2px)}
+  .ph{position:relative;aspect-ratio:16/10;background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center}
+  .ph .ph-name{font-weight:900;font-size:22px;color:rgba(255,255,255,.95);text-shadow:0 1px 6px rgba(0,0,0,.15)}
+  .ph .bdg{position:absolute;left:14px;top:14px;background:var(--dark);color:#fff;font-weight:700;font-size:13px;padding:6px 11px;border-radius:10px}
+  .pc .body{padding:20px 22px 22px;display:flex;flex-direction:column;flex:1}
+  .pc .lbl{color:var(--accent-deep);font-weight:700;font-size:14px}
+  .pc h4{font-size:21px;font-weight:700;margin-top:6px;line-height:1.35}
+  .pc .meta2{color:var(--faint);font-size:14.5px;margin-top:6px}
+  .pc .big{margin-top:16px;font-size:15px;color:var(--faint)}
+  .pc .big b{font-size:24px;font-weight:900;color:var(--ink);margin-right:6px}
+  .pc .more{margin-top:16px;color:var(--accent);font-weight:700;font-size:16px}
+
+  /* compact quiz result */
+  .rs{background:#fff;border-radius:24px;overflow:hidden}
+  section.alt .rs{background:var(--panel)}
+  .rs .ph{aspect-ratio:16/8}
+  .rs .in{padding:26px 26px 28px;text-align:center}
+  .rs .in .lbl{color:var(--sub)}
+  .rs h3{font-weight:900;font-size:32px;margin-top:4px}
+  .rs .why{text-align:left;max-width:420px;margin:18px auto 22px}
+
+  /* modal sheet */
+  .ov{position:fixed;inset:0;background:rgba(25,31,40,.55);z-index:50;display:none;align-items:center;justify-content:center;padding:24px}
+  .ov.open{display:flex}
+  .sheet{background:#fff;border-radius:28px;width:100%;max-width:720px;max-height:92vh;display:flex;flex-direction:column;overflow:hidden;animation:up .25s ease}
+  @keyframes up{from{transform:translateY(24px);opacity:0}to{transform:none;opacity:1}}
+  .sheet .scroll{overflow-y:auto;flex:1}
+  .sheet .ph{aspect-ratio:16/9}
+  .sheet .ph .ph-name{font-size:30px}
+  .x{position:absolute;right:16px;top:16px;width:48px;height:48px;border-radius:50%;background:#fff;border:none;font-size:22px;cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.12)}
+  .sb{padding:30px 32px 36px}
+  .sb .lbl{color:var(--accent-deep);font-weight:700;font-size:15px}
+  .sb h3{font-weight:900;font-size:30px;margin-top:6px;line-height:1.3}
+  .sb .desc{color:var(--sub);font-size:17px;margin-top:8px}
+  .facts{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:24px}
+  .fact{background:var(--panel);border-radius:18px;padding:16px 18px}
+  .fact small{display:block;color:var(--sub);font-size:14px}
+  .fact b{display:block;font-size:17px;margin-top:4px}
+  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
+  .tags span{background:var(--panel);color:#4E5968;border-radius:10px;padding:7px 12px;font-size:14.5px}
+  .sb h5{font-size:21px;font-weight:900;margin:36px 0 14px}
+  .ing-img{width:100%;border-radius:18px;display:block;margin-bottom:14px}
+  .ibox{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .ib{border:1.5px solid var(--line);border-radius:16px;padding:14px 14px 12px;display:flex;flex-direction:column}
+  .ib small{color:var(--sub);font-size:14px}
+  .ib b{font-size:16px;margin-top:2px;line-height:1.35}
+  .ib .go{margin-top:8px;color:var(--accent);font-size:13px;font-weight:700}
+  a.ib:hover{border-color:var(--accent)}
+  .ib.base{background:var(--panel);border-color:transparent}
+  .inlist{list-style:none;border-top:2px solid var(--ink)}
+  .inlist li{display:grid;grid-template-columns:5.5em 9em auto;justify-content:start;align-items:center;gap:8px;padding:9px 4px;border-bottom:1px solid var(--line);font-size:15.5px}
+  .inlist .in-n{font-weight:700}
+  .inlist .in-a{color:#4E5968}
+  .inlist a{color:var(--accent);font-weight:700;font-size:14.5px;white-space:nowrap;text-align:left}
+  .tl{position:relative;margin-left:8px;border-left:2px solid var(--line);padding-left:26px}
+  .tl li{list-style:none;position:relative;margin-bottom:20px}
+  .tl li:before{content:"";position:absolute;left:-34px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--accent)}
+  .tl .st{color:var(--accent);font-weight:900;font-size:14px}
+  .tl p{margin-top:2px}
+  .note-box{background:var(--panel);border-radius:18px;padding:20px 22px}
+  .note-box li{list-style:none;margin:5px 0}
+  .say{background:var(--accent-soft);border-radius:18px;padding:20px 22px}
+  .say b{color:var(--accent)}
+  .sf{display:grid;grid-template-columns:1fr 1.6fr;gap:10px;padding:14px 20px 18px;border-top:1px solid var(--line);background:#fff}
+  .sf button,.sf a{border:none;border-radius:16px;padding:17px;font-size:17px;font-weight:700;text-align:center;cursor:pointer}
+  .sf .c{background:var(--panel);color:var(--ink)}
+  .sf .g{background:var(--accent);color:#fff}
+  .sf-disc{font-size:11.5px;color:#8B95A1;text-align:center;padding:0 20px 12px;background:#fff}
+  body.lock{overflow:hidden}
+
+  /* info cards */
+  .info{display:grid;gap:16px;margin-top:36px}
+  .icard{background:#fff;border:1px solid var(--line);border-radius:24px;padding:32px}
+  .icard .tag{display:inline-block;background:var(--accent-soft);color:var(--accent);font-weight:700;font-size:13.5px;padding:4px 12px;border-radius:999px}
+  .icard h3{font-size:22px;font-weight:700;margin-top:12px}
+  .icard p{margin-top:10px;color:#333D4B}
+  .cite{margin-top:16px;background:var(--panel);border-radius:14px;padding:14px 18px;font-size:14px;color:var(--sub)}
+  .cite b{color:#4E5968;font-weight:500}
+  .transition{text-align:center;color:var(--sub);margin-top:40px;font-size:16px}
+
+  .vegbox{background:#fff;border:1px solid var(--line);border-radius:24px;padding:28px 24px 22px;margin-top:36px}
+  .vegtitle{text-align:center;font-weight:700;font-size:18px}
+  .veggrid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin-top:18px}
+  .veg{text-align:center}
+  .vimg{background:var(--accent-soft);border-radius:50%;aspect-ratio:1;display:flex;align-items:center;justify-content:center;padding:12%}
+  .vimg svg{width:100%;height:100%}
+  .veg b{display:block;font-size:15px;margin-top:8px}
+  /* faq */
+  .faq{margin-top:36px}
+  .faq details{border-bottom:1px solid var(--line);padding:22px 4px}
+  .faq summary{font-size:18px;font-weight:700;list-style:none;display:flex;justify-content:space-between;gap:12px;cursor:pointer}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary:after{content:"+";color:var(--sub);font-weight:400}
+  .faq details[open] summary:after{content:"−"}
+  .faq p{color:#4E5968;margin-top:12px}
+  .faq-note{color:var(--sub);font-size:14.5px;margin-top:18px;font-style:italic}
+
+  /* know-how */
+  .how{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:36px}
+  .hcard{background:var(--panel);border-radius:24px;padding:28px}
+  .hcard .num{font-weight:900;color:var(--accent);font-size:15px}
+  .hcard h3{font-size:19px;font-weight:700;margin:8px 0 10px;line-height:1.4}
+  .hcard p{color:#4E5968;font-size:15px}
+  .hcard p+p{margin-top:10px}
+
+  /* products */
+  .pdisc{text-align:center;color:var(--sub);font-size:14.5px;margin-top:14px;background:#fff;border-radius:14px;padding:12px}
+  .plabel{font-weight:900;font-size:20px;margin:40px 0 6px}
+  .pnote{color:var(--sub);font-size:15px;margin-bottom:16px}
+  .pgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .pcard{background:#fff;border:1px solid var(--line);border-radius:22px;padding:22px;display:flex;flex-direction:column}
+  .pcard .top{display:flex;align-items:center;gap:12px}
+  .pcard .ic{font-size:30px}
+  .pcard b{font-size:17px}
+  .pcard .badge{display:inline-block;font-size:12px;color:var(--accent);background:var(--accent-soft);border-radius:999px;padding:2px 9px;margin-left:4px;vertical-align:2px}
+  .pcard p{color:#4E5968;font-size:15px;margin:10px 0 16px;flex:1}
+  .pcard a{align-self:flex-start;background:var(--dark);color:#fff;border-radius:12px;padding:9px 16px;font-size:14.5px;font-weight:700}
+
+  .acc{display:grid;gap:12px}
+  .acc details{background:#fff;border:1px solid var(--line);border-radius:22px;overflow:hidden}
+  .acc details[open]{border-color:var(--accent)}
+  .acc summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:16px;padding:18px 22px}
+  .acc summary::-webkit-details-marker{display:none}
+  .acc .th{width:52px;height:52px;border-radius:14px;background-size:cover;background-position:center;flex-shrink:0}
+  .acc .tt{flex:1}
+  .acc .tt b{display:block;font-size:18px}
+  .acc .tt small{display:block;color:var(--sub);font-size:14px;margin-top:2px}
+  .acc .chev{color:var(--sub);font-size:20px;transition:transform .2s}
+  .acc details[open] .chev{transform:rotate(180deg)}
+  .acc ul{list-style:none;border-top:1px solid var(--line);padding:6px 22px 10px}
+  .acc li{display:flex;align-items:center;gap:14px;padding:12px 0;border-bottom:1px dashed var(--line)}
+  .acc li:last-child{border-bottom:none}
+  .acc li .ic{font-size:26px;width:34px;text-align:center}
+  .acc li .nm{flex:1}
+  .acc li .nm b{display:block;font-size:16px}
+  .acc li .nm small{display:block;color:var(--sub);font-size:13.5px;line-height:1.45}
+  .acc li a{background:var(--dark);color:#fff;border-radius:12px;padding:9px 14px;font-size:14px;font-weight:700;white-space:nowrap}
+  .acc li .soon{color:var(--faint);font-size:13px;white-space:nowrap}
+  .tgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+  .tcard{background:#fff;border:1px solid var(--line);border-radius:20px;overflow:hidden;display:flex;flex-direction:column}
+  .tcard:hover{border-color:var(--accent)}
+  .timg{background:#fff;aspect-ratio:1;display:flex;align-items:center;justify-content:center;padding:14px}
+  .timg img{max-width:100%;max-height:100%;object-fit:contain}
+  .tb{padding:12px 14px 16px;display:flex;flex-direction:column;flex:1;border-top:1px solid var(--line)}
+  .tbadge{align-self:flex-start;font-size:11.5px;font-weight:700;color:var(--accent-deep);background:var(--accent-soft);border-radius:999px;padding:2px 8px}
+  .tb b{font-size:16px;margin-top:6px}
+  .tb p{font-size:13.5px;color:#4E5968;margin:4px 0 12px;flex:1;line-height:1.5}
+  .tbtn{background:var(--dark);color:#fff;border-radius:10px;padding:8px;text-align:center;font-size:13.5px;font-weight:700}
+  .final-img{display:block;max-width:420px;width:100%;margin:28px auto 0;border-radius:20px;background:#fff}
+  /* final cta */
+  .final{background:var(--dark);color:#fff;text-align:center}
+  .final .no{color:var(--accent2)}
+  .final .sec-sub{color:#B0B8C1}
+  .final-checks{display:inline-block;text-align:left;margin:32px auto 0;list-style:none}
+  .final-checks li{font-size:18px;font-weight:500;margin:8px 0}
+  .final-btns{max-width:420px;margin:32px auto 0;display:grid;gap:10px}
+  .final .disc{color:#8B95A1;text-align:center}
+
+  footer{border-top:1px solid var(--line);padding:36px 20px 52px;text-align:center;color:#8B95A1;font-size:13px;line-height:1.75}
+
+  @media (max-width:760px){
+    .hd{gap:12px;padding:12px 16px}
+    nav{display:none}
+    .logo{flex:1}
+    .banner{aspect-ratio:3.6/1;margin-top:12px;border-radius:12px}
+    .banner-wrap{padding:0 14px}
+    .hero{padding:22px 16px 20px}
+    .hero h1{font-size:6.1vw;line-height:1.38;letter-spacing:-0.06em}
+    .hero h1 .grad{font-size:7.4vw;line-height:1.3;display:inline-block;margin-top:4px}
+    .mbr{display:inline}
+    .hero .lead{font-size:14.5px;margin-top:8px}
+    .hb{flex:1;padding:14px 10px;font-size:16px}
+    .hero-btns{flex-wrap:nowrap}
+    .checks{gap:14px;font-size:14px}
+    .shortcuts{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;padding:16px 16px 24px}
+    .sc{padding:22px 18px;border-radius:20px}
+    .sc .ic{font-size:32px}
+    .sc b{font-size:16.5px;margin-top:14px}
+    .sc small{font-size:13.5px}
+    section{padding:56px 16px}
+    .sec-title{font-size:27px}
+    .story{padding:26px 22px;font-size:16px}
+    .sphotos{grid-template-columns:1fr}
+    .box{padding:28px 18px;border-radius:24px}
+    .q{font-size:25px}
+    .opts{grid-template-columns:1fr}
+    .opt{padding:18px 16px}
+    .rc{padding:20px 18px}
+    .grid6{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:18px}
+    .pc{border-radius:16px}
+    .pc .ph{aspect-ratio:4/3}
+    .pc .body{padding:12px 12px 14px}
+    .pc .lbl{font-size:11.5px;line-height:1.4}
+    .pc h4{font-size:16.5px;margin-top:4px}
+    .pc .more{font-size:13.5px;margin-top:8px}
+    .ov{padding:0;align-items:flex-end}
+    .sheet{border-radius:24px 24px 0 0;max-height:94vh}
+    .sb{padding:24px 20px 28px}
+    .sb h3{font-size:25px}
+    .facts{grid-template-columns:1fr 1fr 1fr;gap:6px}
+    .fact{padding:12px 10px}
+    .fact b{font-size:14.5px}
+    .fact small{font-size:12.5px}
+    .ibox{grid-template-columns:1fr 1fr}
+    .rs .in{padding:22px 18px 24px}
+    .icard{padding:24px 20px}
+    .how{grid-template-columns:1fr}
+    .veggrid{grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+    .pgrid{grid-template-columns:1fr}
+    .tgrid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+    .tb p{font-size:12.5px}
+    .final-img{max-width:300px}
+    .acc summary{padding:16px}
+    .acc ul{padding:4px 16px 8px}
+  }
+</style>
+</head>
+<body>
+
+<a class="strip" id="stripLink" target="_blank" rel="noopener">⏰ 만들 시간이 없다면? <b>십자화과 채소 스무디 간편하게 챙기기</b></a>
+
+
+
+<div class="banner-wrap"><div class="banner" role="img" aria-label="10년 경력 대학병원 간호사가 알려주는 건강한 다이어트 - 습관을 바꿔야 살이 빠집니다"></div></div>
+<div class="hero">
+  <span class="pill">🎁 10년 차 간호사의 무료 스무디 레시피</span>
+  <h1>만성염증, 장 건강을 위한 채소 습관<br><span class="grad">나에게 딱 맞는 스무디 찾고<br class="mbr"> 쉽게 시작하세요.</span></h1>
+  <p class="lead">일주일에 한 번 만들어 7일 동안. 바쁜 날엔 간편하게.</p>
+  <div class="hero-btns">
+    <button class="hb hb-main" onclick="restart()">🥦 내 스무디 찾기</button>
+    <button class="hb hb-sub" onclick="go('recipes')">레시피 바로 보기</button>
+  </div>
+</div>
+
+<div class="shortcuts">
+  <div class="sc" onclick="go('story')"><div class="ic">📈</div><b>3년간 스무디로 경험한 변화</b><small>10년 차 간호사의 솔직한 이야기</small></div>
+  <div class="sc" onclick="restart()"><div class="ic">🥦</div><b>내 스무디 찾기</b><small>7가지 질문으로 맞춤 레시피 추천</small></div>
+  <div class="sc" onclick="go('recipes')"><div class="ic">📖</div><b>스무디 레시피 6가지</b><small>연두·그린·고소미·핑크·골드·루비</small></div>
+  <div class="sc" onclick="go('know-how')"><div class="ic">💡</div><b>쉽게 만드는 노하우</b><small>3년 동안 포기하지 않은 방법</small></div>
+  <div class="sc" onclick="go('items')"><div class="ic">🛒</div><b>신채소가 쓰는 재료 & 도구</b><small>직접 쓰는 추천템 리스트</small></div>
+  <div class="sc" onclick="go('easy')"><div class="ic">⏰</div><b>만들기 어렵다면?</b><small>바쁜 날 간편하게 챙기는 법</small></div>
+</div>
+
+<!-- 1. STORY -->
+<section id="story" class="alt">
+  <div class="wrap">
+    <span class="no">01</span>
+    <h2 class="sec-title">3년간 스무디로 경험한 변화</h2>
+    <div class="story">
+      <p>저는 이 스무디를 마신 지 어느덧 <span class="hl">3년</span>이 되었습니다.</p>
+      <div class="sphotos">
+        <figure class="wide"><img src="img/story-smoothie.jpg" alt="소분해 둔 연두 스무디와 핑크 스무디" loading="lazy"><figcaption>일주일 치를 만들어 소분해 둔 스무디</figcaption></figure>
+        <figure><img src="img/story-rx.jpg" alt="만성비염과 피부염으로 받았던 처방전" loading="lazy"><figcaption>만성비염·피부염으로 받았던 처방전</figcaption></figure>
+        <figure><img src="img/story-skin.jpg" alt="피부 변화 비포 애프터" loading="lazy"><figcaption>식습관을 바꾸기 전과 후의 피부</figcaption></figure>
+      </div>
+      <p>그동안 <span class="hl">8년 이상</span> 앓았던 만성 비염과 피부염이 없어지고, 과민성 대장 증후군으로 반복했던 설사와 변비에도 긍정적인 변화를 경험했습니다.</p>
+      <p>물론 모든 변화가 스무디 하나 때문이라고 할 수는 없어요. 하지만 건강한 식습관을 꾸준히 실천하면서 몸의 변화를 느낄 수 있었어요.</p>
+      <p>이 페이지에는 제가 3년 동안 직접 만들어 마신 십자화과 스무디 레시피와, 바쁜 날에도 포기하지 않게 해 준 <span class="hl">쉽게 만드는 노하우</span>, 그리고 <span class="hl">실제로 쓰는 추천 재료와 도구</span>까지 한 번에 정리했어요.</p>
+      <p class="note">※ 개인의 경험이며, 사람마다 결과는 다를 수 있어요.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 2. RECIPE / TEST -->
+<section id="recipe">
+  <div class="wrap">
+    <span class="no">02</span>
+    <h2 class="sec-title">나에게 맞는 스무디 찾기</h2>
+    <p class="sec-sub">6가지 레시피 중에서 취향과 생활에 맞는 하나를 골라 드려요.<br>고르는 즉시 다음 질문으로 넘어가요.</p>
+    <div class="box" id="box"></div>
+
+    <h3 class="sub-h" id="recipes">레시피 모아보기</h3>
+    <p class="sec-sub">모두 약 2L, 1주일(7잔) 분량이에요. 카드를 눌러 자세한 레시피를 확인하세요.<br><span style="color:var(--accent-deep);font-weight:700">라이블리 스무디 레시피를 참고했어요.</span></p>
+    <div class="grid6" id="grid"></div>
+    <p class="transition">그런데 십자화과 채소, 왜 이렇게 챙겨 먹는 걸까요? 👇</p>
+  </div>
+</section>
+
+<!-- 3. WHY -->
+<section id="why" class="alt">
+  <div class="wrap">
+    <span class="no">03</span>
+    <h2 class="sec-title">십자화과 채소가<br>만성염증·장 건강에 좋은 이유</h2>
+    <div class="vegbox">
+      <p class="vegtitle">이 페이지 레시피에 들어가는 <span style="color:var(--hl)">십자화과 채소</span></p>
+      <div class="veggrid"><div class="veg"><div class="vimg"><svg viewBox="0 0 100 100"><rect x="43" y="52" width="14" height="34" rx="6" fill="#9CCB6B"/><path d="M50 60 L36 70 M50 62 L64 72" stroke="#9CCB6B" stroke-width="6" stroke-linecap="round"/><circle cx="34" cy="44" r="16" fill="#3E7B2E"/><circle cx="66" cy="44" r="16" fill="#3E7B2E"/><circle cx="50" cy="32" r="18" fill="#4A8F37"/><circle cx="50" cy="50" r="15" fill="#3E7B2E"/><circle cx="44" cy="28" r="4" fill="#5FA548"/><circle cx="60" cy="40" r="3.5" fill="#5FA548"/><circle cx="32" cy="42" r="3.5" fill="#5FA548"/></svg></div><b>브로콜리</b></div><div class="veg"><div class="vimg"><svg viewBox="0 0 100 100"><circle cx="50" cy="54" r="34" fill="#B9DB8A"/><path d="M18 50 Q30 20 50 22 Q72 20 82 50 Q70 34 50 36 Q30 34 18 50Z" fill="#9CCB6B"/><path d="M50 36 Q46 60 50 86" stroke="#DCEFC3" stroke-width="3" fill="none"/><path d="M50 52 Q34 56 26 70 M50 52 Q66 56 74 70" stroke="#DCEFC3" stroke-width="2.5" fill="none"/></svg></div><b>양배추</b></div><div class="veg"><div class="vimg"><svg viewBox="0 0 100 100"><path d="M16 60 Q30 90 50 88 Q70 90 84 60 Q70 72 50 70 Q30 72 16 60Z" fill="#6FA64A"/><circle cx="34" cy="50" r="14" fill="#F3E9CF"/><circle cx="66" cy="50" r="14" fill="#F3E9CF"/><circle cx="50" cy="38" r="16" fill="#F8F0DC"/><circle cx="50" cy="56" r="14" fill="#EFE3C2"/><circle cx="44" cy="34" r="3" fill="#E5D5AE"/><circle cx="62" cy="48" r="3" fill="#E5D5AE"/><circle cx="34" cy="52" r="3" fill="#E5D5AE"/></svg></div><b>콜리플라워</b></div><div class="veg"><div class="vimg"><svg viewBox="0 0 100 100"><ellipse cx="34" cy="38" rx="14" ry="26" fill="#4E9A3C" transform="rotate(-18 34 38)"/><ellipse cx="66" cy="38" rx="14" ry="26" fill="#4E9A3C" transform="rotate(18 66 38)"/><ellipse cx="50" cy="32" rx="15" ry="28" fill="#5DAA48"/><path d="M36 60 Q50 92 64 60 Q58 74 50 74 Q42 74 36 60Z" fill="#E6F2D8"/><path d="M34 58 Q50 66 66 58 L62 84 Q50 92 38 84Z" fill="#D7EBC1"/><path d="M50 30 V70" stroke="#CFE6B4" stroke-width="2.5"/></svg></div><b>청경채</b></div><div class="veg"><div class="vimg"><svg viewBox="0 0 100 100"><circle cx="50" cy="54" r="34" fill="#7A3E8E"/><path d="M18 50 Q30 20 50 22 Q72 20 82 50 Q70 34 50 36 Q30 34 18 50Z" fill="#5E2D70"/><path d="M50 36 Q46 60 50 86" stroke="#B88CC6" stroke-width="3" fill="none"/><path d="M50 52 Q34 56 26 70 M50 52 Q66 56 74 70" stroke="#B88CC6" stroke-width="2.5" fill="none"/></svg></div><b>적양배추</b></div><div class="veg"><div class="vimg"><svg viewBox="0 0 100 100"><path d="M30 86 Q22 50 34 20 Q50 8 66 20 Q78 50 70 86 Q50 94 30 86Z" fill="#F1F4E2"/><path d="M32 22 Q50 6 68 22 Q72 40 66 50 Q60 38 50 40 Q40 38 34 50 Q28 40 32 22Z" fill="#B7D86B"/><path d="M50 40 V88" stroke="#DDE6C0" stroke-width="3"/><path d="M40 46 Q38 66 40 86 M60 46 Q62 66 60 86" stroke="#E3EACB" stroke-width="2" fill="none"/></svg></div><b>배추</b></div></div>
+      <p class="small" style="text-align:center">배추과(십자화과)에 속하는 채소로, 꽃잎 4장이 십자(+) 모양으로 피어서 붙은 이름이에요.</p>
+    </div>
+    <div class="info">
+      <div class="icard">
+        <span class="tag">① 식물성 성분</span>
+        <h3>염증 반응과 관련된 식물성 성분</h3>
+        <p>브로콜리, 양배추, 콜리플라워 같은 십자화과 채소에는 설포라판을 비롯한 다양한 파이토케미컬이 들어 있습니다. 이러한 식물성 성분은 항산화 및 염증 반응 조절과 관련된 연구가 이루어지고 있습니다.</p>
+        <div class="cite"><b>출처:</b> López-Chillón, M. T., et al. (2019). "Effects of long-term consumption of broccoli sprouts on inflammatory markers in overweight subjects." <i>Clinical Nutrition.</i><br>과체중 성인이 10주 동안 브로콜리 새싹을 꾸준히 먹었더니, 몸속 염증과 관련된 IL-6와 CRP 수치가 감소한 것을 확인한 연구</div>
+      </div>
+      <div class="icard">
+        <span class="tag">② 식이섬유</span>
+        <h3>장내 유익균의 먹이가 되는 식이섬유</h3>
+        <p>채소에 들어 있는 식이섬유는 장내 유익균의 먹이가 되고 배변 활동과 장 건강에도 도움을 줄 수 있습니다.</p>
+        <div class="cite"><b>출처:</b> So, D., et al. (2018). "Dietary fiber intervention on gut microbiota composition in healthy adults: A systematic review and meta-analysis." <i>The American Journal of Clinical Nutrition,</i> 107(6), 965–983.<br>성인 2,099명을 대상으로 한 64개 연구를 종합한 결과, 식이섬유를 섭취하면 장내 유익균인 비피더스균과 유산균의 양이 증가하는 것으로 나타남</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 5. KNOW-HOW -->
+<section id="know-how">
+  <div class="wrap" style="max-width:1080px">
+    <span class="no">04</span>
+    <h2 class="sec-title">쉽게 만드는 노하우 3가지</h2>
+    <p class="sec-sub">매번 재료를 손질하고 찌는 일이 번거로우면 꾸준히 이어가기 어렵죠.<br>제가 3년 동안 스무디를 계속 만들 수 있었던 방법을 알려 드릴게요.</p>
+    <div class="how">
+      <div class="hcard"><span class="num">01</span><h3>손질이 번거로운 채소는<br>냉동 제품 활용하기</h3>
+        <p>콜리플라워는 마트에 없을 때가 많았고, 아보카도는 사 와서 익을 때까지 며칠을 기다려야 했어요. 손질하는 데만 매번 10~20분이 걸렸고요.</p>
+        <p>냉동 제품으로 바꾸고 나서는 콜리플라워를 언제든 구할 수 있고, 아보카도도 기다릴 필요 없이 바로 쓸 수 있어요. 손질 시간도 사라졌어요.</p></div>
+      <div class="hcard"><span class="num">02</span><h3>요일 정해서<br>스무디 만들기</h3>
+        <p>저는 매주 월요일이나 화요일에 만들어요. 한 번 만들 때 2주 치 재료를 한꺼번에 준비하는데, 이때는 2시간 정도 걸려요.</p>
+        <p>대신 그다음 주에는 갈고 소분만 하면 돼서 30분이면 끝나요. 만드는 날이 정해져 있으니 "언제 만들지?" 고민할 필요가 없어서 자연스럽게 습관이 됐어요.</p></div>
+      <div class="hcard"><span class="num">03</span><h3>스무디 도구만 갖춰도<br>절반은 끝나요</h3>
+        <p>스무디는 찌고, 갈고, 소분하는 과정이 매주 반복돼요. 그래서 과정마다 쓰는 도구를 정해 두었더니 훨씬 수월해졌어요.</p>
+        <p>깔때기를 쓰면서 소분할 때 흘리지 않게 됐고, 바이타믹스로 바꾸고 나서는 알갱이 없이 부드럽게 마실 수 있게 됐어요. 눈금 유리병 덕분에 1회분을 딱 맞게 담을 수 있고요.</p></div>
+    </div>
+    <p class="transition">제가 실제로 쓰는 재료와 도구는 아래에 정리했어요 👇</p>
+  </div>
+</section>
+
+<!-- 6. ITEMS -->
+<section id="items" class="alt">
+  <div class="wrap">
+    <span class="no">05</span>
+    <h2 class="sec-title">신채소가 쓰는<br>추천 재료 & 도구 리스트</h2>
+    <p class="pdisc">모든 제품은 내돈내산이지만, 이 포스팅은 쿠팡 파트너스 활동의 일환으로 이에 따른 일정액의 수수료를 제공받습니다.</p>
+    <h3 class="plabel">🥦 추천 재료</h3>
+    <p class="pnote">매일 먹는 만큼 기본 채소는 가능하면 유기농으로 고르고, 손질이 번거로운 재료는 냉동 제품으로 시간을 줄였어요.<br>레시피를 누르면 들어가는 재료를 한 번에 볼 수 있어요.</p>
+    <div class="acc" id="ingAcc"></div>
+    <h3 class="plabel">🍳 추천 도구</h3>
+    <p class="pnote">과정마다 쓰는 도구를 정해 두면 준비도 쉽고, 만드는 과정도 한결 편해져요.</p>
+    <div class="tgrid" id="toolGrid"></div>
+  </div>
+</section>
+
+<!-- 7. EASY -->
+<section id="easy" class="final">
+  <div class="wrap">
+    <span class="no">06</span>
+    <h2 class="sec-title">만들기 어렵다면?<br>간편하게 챙기는 법</h2>
+    <p class="sec-sub">복잡한 레시피 없이도 쉽고 간편하게 챙기는 건강 습관!</p>
+    <a id="productLink" target="_blank" rel="noopener"><img class="final-img" src="img/product.jpg" alt="십자화과 채소 스무디 제품 보기" loading="lazy"></a>
+    <ul class="final-checks">
+      <li>✅ 일에 치여서 만들 시간이 없어요</li>
+      <li>✅ 가족 챙기느라 내 건 늘 뒷전이에요</li>
+      <li>✅ 부모님 챙겨 드리고 싶은데 멀리 계세요</li>
+    </ul>
+    <div class="final-btns">
+      <a class="btn btn-green" id="easyLink" target="_blank" rel="noopener">십자화과 채소 스무디 구성 확인하기</a>
+      <button class="btn btn-white" onclick="restart()">아직 못 정했다면? 내 스무디 찾기</button>
+    </div>
+    <p class="disc">쿠팡 파트너스 활동의 일환으로, 구매 시 일정액의 수수료를 제공받습니다.</p>
+  </div>
+</section>
+
+<!-- 7. FAQ -->
+<section id="faq">
+  <div class="wrap">
+    <span class="no">07</span>
+    <h2 class="sec-title">갈아 마셔도 괜찮을까?<br>자주 묻는 질문 3가지</h2>
+    <div class="faq">
+      <details><summary>갈아 마시면 혈당이 급격히 올라가지 않을까?</summary>
+        <p>혈당이 오르려면 당분이 있어야 하는데, 이 스무디는 채소 위주라 당분이 거의 없어요. 과일도 갈아 먹을 때와 통째로 먹을 때 혈당 차이가 거의 없거나, 오히려 갈아 먹을 때 덜 올랐다는 연구가 있어요. 게다가 식이섬유가 풍부해서 혈당이 천천히 오르는 데 도움이 될 수 있어요.</p></details>
+      <details><summary>갈아 마시면 간에 안 좋다던데요?</summary>
+        <p>이 이야기는 일부 약초를 즙으로 짜서 많이 먹은 분들에게 간 손상이 나타났다는 보고에서 시작됐어요. 이 스무디는 그런 약초가 아니라 우리가 매일 먹는 채소로 만들기 때문에 걱정하지 않으셔도 돼요.</p></details>
+      <details><summary>채소를 갈아 마시면 신장에 안 좋다던데요?</summary>
+        <p>신장 기능이 많이 떨어진 분들은 채소 속 칼륨을 잘 내보내지 못해서 채소 양을 조절해야 해요. 병원에서 칼륨이나 채소 제한을 안내받은 분이라면 스무디보다는 반찬이나 요리로 드시는 게 더 안전해요. 그런 경우가 아니라면 채소를 갈아 마신다고 신장에 무리가 가지는 않아요.</p></details>
+    </div>
+    <p class="faq-note">* 기저질환이 있다면 섭취 전 담당 의사와 상담하세요.</p>
+  </div>
+</section>
+
+<div class="ov" id="ov" onclick="if(event.target===this)closeSheet()">
+  <div class="sheet" role="dialog" aria-modal="true">
+    <div class="scroll" id="sheetScroll"></div>
+    <div class="sf"><button class="c" onclick="closeSheet()">닫기</button><a class="g" id="sheetBusy" target="_blank" rel="noopener">바쁜 날엔 간편하게 ›</a></div>
+    <div class="sf-disc">쿠팡 파트너스 활동의 일환으로, 구매 시 일정액의 수수료를 제공받습니다.</div>
+  </div>
+</div>
+
+<footer>
+  * 해당 페이지는 닥터라이블리, 로단테염증해방라이프 채널에서 소개된 내용을 참고하고 개인적인 경험과 연결하여 정리했습니다.<br>
+  기저질환이 있다면 섭취 전 담당 의사와 상담하세요.<br>
+  이 페이지의 제품 링크는 쿠팡 파트너스 활동의 일환으로, 이에 따른 일정액의 수수료를 제공받습니다.<br><br>
+  © 신채소의 건강 다이어트
+</footer>
+
+<script>
+/* ===== 설정: 구글폼 링크를 넣으면 결과 화면에 '무료 가이드 받기' 버튼이 나타나요 ===== */
+const FORM_URL = "";
+const BUSY_URL = "https://bit.ly/4zu2xqd";
+['stripLink','easyLink','productLink'].forEach(id=>document.getElementById(id).href=BUSY_URL);
+
+const L = {
+  cauli:["냉동 유기농 콜리플라워","https://link.coupang.com/a/iEfWeERuUe","❄️","마트에서 구하기 어렵고 손질이 번거로운데, 냉동은 꺼내서 바로 쓰면 돼요."],
+  avocado:["냉동 아보카도","https://link.coupang.com/a/iEf19pJWMu","🥑","껍질 벗기고 씨 빼는 수고 없이 필요한 만큼만 꺼내 써요. 익는 시기를 기다릴 필요도 없어요."],
+  cabbage:["유기농 양배추","https://link.coupang.com/a/iEgU79xJD2","🥬","겉잎만 떼고 바로 쓰기 좋아요. 연두 스무디의 기본 재료예요."],
+  broccoli:["유기농 브로콜리","https://link.coupang.com/a/iEgnqAY6Ca","🥦","연두·그린 스무디에 들어가는 핵심 재료예요."],
+  redcab:["유기농 적양배추","https://link.coupang.com/a/iEhxvnApDE","🟣","핑크 스무디의 고운 색을 내 주는 재료예요."],
+  zucchini:["유기농 애호박","https://link.coupang.com/a/iEhbL2PVDg","🥒","핑크·골드·루비 스무디를 부드럽게 만들어 줘요."],
+  lemon:["유기농 레몬즙","https://link.coupang.com/a/iEhcTlNEFU","🍋","레몬을 일일이 짤 필요 없이 계량해서 바로 넣어요."],
+  allulose:["알룰로스","https://link.coupang.com/a/iEhksNMpdk","🍯","설탕 대신 은은하고 건강한 단맛을 더할 때 써요."]
+};
+const TOOLS = [
+  ["눈금 유리병","https://link.coupang.com/a/iEfxj12OFE","img/tool-jar.jpg","소분이 쉬워지는 필수템","플라스틱 대신 내열 유리라 안심되고, 230~250ml 눈금이 있어 양 맞추기 편해요."],
+  ["스테인리스 깔때기","https://link.coupang.com/a/iPleFH11aK","img/tool-funnel.jpg","흘리지 않고 깔끔하게","스테인리스 304 소재예요. 병 입구에 딱 맞아서 걸쭉한 스무디도 흘리지 않고 담을 수 있어요."],
+  ["AMT 찜기","https://link.coupang.com/a/iEfNKKSNdk","img/tool-steamer.jpg","다시 산다면 이 제품","지금은 다른 찜기를 쓰지만, 다시 고른다면 이걸 사고 싶어요. 316Ti 스테인리스 소재로 오래 쓸 수 있어요."],
+  ["바이타믹스 블렌더","https://link.coupang.com/a/iEfPtaDzm8","img/tool-blender.jpg","돌고 돌아 정착한 블렌더","여러 믹서기를 써 보고 결국 정착했어요. 알갱이 없이 곱게 갈려서 마시기 훨씬 편해요. 가격대는 있지만 가장 만족하는 아이템이에요."]
+];
+
+const R = {
+  yeondu:{
+    name:"연두 스무디", color:"#C9DE8C", made:true, short:"부드럽고 크리미한<br>입문용 스무디",
+    tag:"부드럽고 크리미해서 처음 시작하기 좋은 스무디",
+    why:["스무디가 처음이거나 채소 맛이 부담스러운 분","마트에서 쉽게 구하는 재료로 시작하고 싶은 분","아보카도의 부드러운 맛을 좋아하는 분"],
+    ing:[["양배추","300g (약 1/4통) · 찌기 4~5분"],["브로콜리","200g (약 1개) · 찌기 2~3분"],["아보카도","3개 (약 360g)"]],
+    base:[["레몬즙","90ml"],["알룰로스","3~4스푼"],["물","750ml"]],
+    prep:["브로콜리는 거꾸로 물에 담가 베이킹소다를 조금 넣고 약 5분간 담근 후 깨끗하게 세척합니다.","양배추는 겉잎을 떼어내고 한 장씩 분리해 깨끗하게 씻습니다.","세척한 양배추와 브로콜리를 적당한 크기로 손질합니다.","브로콜리는 약 3분, 양배추는 약 5분간 쪄 줍니다.","찐 채소는 갈변을 방지하기 위해 한 김 식혀 줍니다.","믹서기에 물, 레몬즙, 알룰로스를 먼저 넣고 양배추, 브로콜리, 아보카도를 추가합니다.","모든 재료가 부드러워질 때까지 곱게 갈아 줍니다."],
+    tip:"제가 5kg 뺄 때 먹었던 스무디예요. 아보카도는 냉동 제품을 쓰면 익을 때까지 기다릴 필요 없이 바로 쓸 수 있어요.",
+    links:["cabbage","broccoli","avocado","lemon","allulose"]
+  },
+  green:{
+    name:"그린 스무디", color:"#7FB069", made:true, short:"깔끔한 초록 맛<br>손질이 빠른 스무디",
+    tag:"깔끔한 초록 맛, 손질이 빠른 스무디",
+    why:["깔끔한 채소 맛을 좋아하는 분","손질 시간을 줄이고 싶은 분 (청경채는 2분만 쪄요)","연두 스무디가 익숙해져서 다른 맛이 궁금한 분"],
+    ing:[["청경채","300g · 찌기 2분"],["브로콜리","200g (약 1개) · 찌기 2~3분"],["아보카도","3개 (약 360g)"]],
+    base:[["레몬즙","90ml"],["알룰로스","3~4스푼"],["물","750ml"]],
+    prep:["청경채는 밑동을 제거하고 잎을 하나씩 분리해 깨끗하게 씻습니다.","브로콜리는 거꾸로 물에 담가 베이킹소다를 조금 넣고 약 5분간 담근 후 깨끗하게 세척합니다.","세척한 브로콜리는 송이별로 적당한 크기로 손질합니다.","청경채는 약 2분, 브로콜리는 약 3분간 쪄 줍니다.","찐 채소는 갈변을 방지하기 위해 한 김 식혀 줍니다.","믹서기에 물, 레몬즙, 알룰로스를 먼저 넣고 아보카도, 청경채, 브로콜리를 추가합니다.","모든 재료가 부드러워질 때까지 곱게 갈아 줍니다."],
+    tip:"연두 스무디에서 양배추 대신 청경채가 들어가요. 브로콜리와 아보카도는 같아서, 두 가지를 번갈아 만들면 장보기가 편해요.",
+    links:["broccoli","avocado","lemon","allulose"]
+  },
+  gosomi:{
+    name:"고소미 스무디", color:"#E8D7A8", made:true, short:"채소 세 가지가 어우러진<br>고소한 스무디",
+    tag:"채소 세 가지가 어우러진 고소한 스무디",
+    why:["고소하고 진한 맛을 좋아하는 분","여러 가지 채소를 한 번에 챙기고 싶은 분","냉동 재료를 활용해 손질을 줄이고 싶은 분"],
+    ing:[["청경채","300g · 찌기 2분"],["콜리플라워","300g · 찌기 2~3분"],["시금치","200g · 데치기 30초~1분"],["아보카도","3개 (약 360g)"]],
+    base:[["레몬즙","90ml"],["알룰로스","2~3스푼"],["물","750ml"]],
+    prep:["콜리플라워는 꽃송이를 나눈 후 거꾸로 물에 담가 베이킹소다를 조금 넣고 약 5분간 담근 후 깨끗하게 세척합니다.","청경채는 밑동을 제거하고 잎을 분리해 씻고, 시금치도 깨끗하게 씻습니다.","청경채는 약 2분, 콜리플라워는 2~3분간 찌고, 시금치는 30초~1분간 데쳐 줍니다.","찐 채소는 갈변을 방지하기 위해 한 김 식혀 줍니다.","믹서기에 물, 레몬즙, 알룰로스를 먼저 넣고 손질한 채소와 아보카도를 추가합니다.","모든 재료가 부드러워질 때까지 곱게 갈아 줍니다."],
+    tip:"콜리플라워는 마트에 없을 때가 많아서 저는 냉동 제품을 써요. 바꾸고 나서는 언제든 구할 수 있고 손질 시간도 사라졌어요.",
+    links:["cauli","avocado","lemon","allulose"]
+  },
+  pink:{
+    name:"핑크 스무디", color:"#E9A1B5", made:true, short:"토마토가 들어간<br>상큼한 스무디",
+    tag:"토마토가 들어간 상큼한 스무디",
+    why:["상큼한 맛을 좋아하는 분","아보카도 없이 만들고 싶은 분","예쁜 색에 기분까지 좋아지고 싶은 분"],
+    ing:[["콜리플라워","300g · 찌기 2~3분"],["적양배추","약 300g · 찌기 4~5분"],["애호박","1개 · 찌기 4~5분"],["토마토","300~500g · 생으로 또는 찌기"]],
+    base:[["레몬즙","60ml"],["알룰로스","2스푼"],["물","500ml"]],
+    prep:["콜리플라워는 꽃송이를 나눈 후 거꾸로 물에 담가 베이킹소다를 조금 넣고 약 5분간 담근 후 깨끗하게 세척합니다.","세척한 콜리플라워는 송이별로 적당한 크기로 손질합니다.","적양배추와 애호박은 흐르는 물에 깨끗하게 씻어 적당한 크기로 손질합니다.","콜리플라워는 약 3분, 적양배추와 애호박은 약 5분간 데쳐 줍니다.","데친 채소는 찬물에 식힌 후 물기를 제거합니다.","토마토는 깨끗하게 씻어 꼭지를 제거하고 적당한 크기로 자릅니다.","믹서기에 물, 레몬즙, 알룰로스를 먼저 넣고 준비한 채소와 토마토를 추가합니다.","모든 재료가 부드러워질 때까지 곱게 갈아 줍니다."],
+    tip:"적양배추가 고운 핑크색을 내 주고, 애호박이 스무디를 부드럽게 만들어 줘요.",
+    links:["cauli","redcab","zucchini","lemon","allulose"]
+  },
+  gold:{
+    name:"골드 스무디", color:"#F0C24B", made:false, short:"배추와 토마토로 만든<br>순한 골드빛 스무디",
+    tag:"배추와 토마토로 만든 순하고 가벼운 스무디",
+    why:["아보카도 없이 가볍게 마시고 싶은 분","단맛을 최소로 하고 싶은 분 (알룰로스는 필요할 때만)","순하고 부담 없는 맛을 좋아하는 분"],
+    ing:[["콜리플라워","300g · 찌기 2~3분"],["배추","약 500g · 찌기 4~5분"],["애호박","1개 · 찌기 4~5분"],["토마토","300~500g · 생으로 또는 찌기"]],
+    base:[["레몬즙","60ml"],["물","500ml"],["알룰로스","단맛이 부족하면 1스푼 추가"]],
+    prep:["콜리플라워는 꽃송이를 나눈 후 거꾸로 물에 담가 베이킹소다를 조금 넣고 약 5분간 담근 후 깨끗하게 세척합니다.","배추와 애호박은 흐르는 물에 깨끗하게 씻어 적당한 크기로 손질합니다.","콜리플라워는 2~3분, 배추와 애호박은 4~5분간 쪄 줍니다.","찐 채소는 갈변을 방지하기 위해 한 김 식혀 줍니다.","토마토는 깨끗하게 씻어 꼭지를 제거하고 적당한 크기로 자릅니다.","믹서기에 물과 레몬즙을 먼저 넣고 준비한 채소와 토마토를 추가합니다.","모든 재료가 부드러워질 때까지 곱게 갈아 줍니다. 단맛이 부족하면 알룰로스 1스푼을 더해요."],
+    tip:"핑크 스무디에서 적양배추 대신 배추가 들어가요. 콜리플라워·애호박·토마토가 같아서 핑크와 번갈아 만들기 좋아요.",
+    links:["cauli","zucchini","lemon","allulose"]
+  },
+  ruby:{
+    name:"루비 스무디", color:"#A8324A", made:true, short:"단맛을 더하지 않는<br>진한 루비색 스무디",
+    tag:"단맛을 더하지 않는 진한 루비색 스무디",
+    why:["알룰로스 없이, 단맛을 더하지 않고 마시고 싶은 분","스무디에 익숙해져서 새로운 맛에 도전하고 싶은 분","진하고 깊은 맛을 좋아하는 분"],
+    ing:[["배추","약 500g · 찌기 4~5분"],["청경채","300g · 찌기 2분"],["애호박","1개 · 찌기 4~5분"],["비트","400g · 찌기 10분"]],
+    base:[["레몬즙","120ml"],["물","500ml"]],
+    prep:["배추, 청경채, 애호박, 비트를 깨끗하게 씻어 적당한 크기로 손질합니다.","비트는 단단해서 약 10분간 충분히 쪄 줍니다. 이미 쪄서 나오는 찐 비트 제품을 쓰면 이 과정은 생략해도 돼요.","배추와 애호박은 4~5분, 청경채는 약 2분간 쪄 줍니다.","찐 채소는 갈변을 방지하기 위해 한 김 식혀 줍니다.","믹서기에 물과 레몬즙을 먼저 넣고 손질한 채소를 모두 추가합니다.","모든 재료가 부드러워질 때까지 곱게 갈아 줍니다."],
+    tip:"알룰로스가 들어가지 않는 레시피예요. 비트는 다른 채소보다 오래 쪄야 곱게 갈려요.",
+    links:["zucchini","lemon"]
+  }
+};
+
+const Q = [
+  {cat:"고민", q:"요즘 가장 신경 쓰이는 건<br>무엇인가요?", h:"가장 가까운 하나를 골라 주세요.", o:[
+    ["🔥","염증","피부 트러블·붓기가 신경 쓰여요",{pink:2,ruby:1,gosomi:1}],
+    ["🌿","장 건강","배변이 신경 쓰여요",{yeondu:2,gosomi:1}],
+    ["😮‍💨","피로","늘 피곤하고 몸이 무거워요",{green:2,gosomi:2}],
+    ["⚖️","체중 관리","굶지 않고 관리하고 싶어요",{pink:2,gold:2,yeondu:1}]]},
+  {cat:"맛", q:"어떤 맛을 좋아하세요?", h:"평소 즐겨 드시는 맛을 떠올려 보세요.", o:[
+    ["🥑","부드럽고 크리미한 맛","아보카도처럼 부드럽게",{yeondu:2,green:1}],
+    ["🍅","상큼한 맛","토마토·레몬처럼 산뜻하게",{pink:2,gold:1,ruby:1}],
+    ["🌰","고소하고 진한 맛","든든하게 마시고 싶어요",{gosomi:3}],
+    ["🥬","깔끔한 채소 맛","가볍고 순하게",{green:2,gold:2}]]},
+  {cat:"아보카도", q:"아보카도는 어떠세요?", h:"레시피에 따라 아보카도가 들어가요.", o:[
+    ["😋","좋아해요","부드러운 맛이 좋아요",{yeondu:1,green:1,gosomi:1}],
+    ["🙂","괜찮아요","있어도 없어도 좋아요",{}],
+    ["🙅","별로예요","빼고 만들고 싶어요",{yeondu:-20,green:-20,gosomi:-20}]]},
+  {cat:"단맛", q:"단맛은 어느 정도가<br>좋아요?", h:"알룰로스로 단맛을 조절할 수 있어요.", o:[
+    ["🍯","살짝 달게","달아야 잘 마실 수 있어요",{yeondu:1,green:1,pink:1,gosomi:1}],
+    ["💧","단맛 없이","채소 본연의 맛도 괜찮아요",{ruby:3,gold:2}]]},
+  {cat:"경험", q:"채소 스무디,<br>마셔 본 적 있나요?", h:"경험에 맞는 난이도로 골라 드려요.", o:[
+    ["🌱","처음이에요","쉬운 레시피부터 시작할래요",{yeondu:3}],
+    ["🥤","몇 번 마셔 봤어요","다른 맛도 궁금해요",{green:1,pink:1,gold:1}],
+    ["💪","꾸준히 마셔요","새로운 레시피에 도전할래요",{gosomi:2,ruby:1}]]},
+  {cat:"재료", q:"재료는 어떻게<br>준비하고 싶으세요?", h:"구하기 쉬운 재료로 골라 드려요.", o:[
+    ["🛒","동네 마트 재료로","양배추·브로콜리·배추처럼 쉽게",{yeondu:2,green:1,gold:1}],
+    ["❄️","냉동·온라인도 OK","냉동 콜리플라워·아보카도",{gosomi:1,pink:1}],
+    ["🤷","상관없어요","맛있으면 OK",{}]]},
+  {cat:"색", q:"마지막! 지금 끌리는<br>색은 무엇인가요?", h:"직감으로 골라 주세요.", o:[
+    ["c:#C9DE8C","연두색","싱그럽고 부드러운 느낌",{yeondu:3}],
+    ["c:#7FB069","초록색","깔끔하고 건강한 느낌",{green:3}],
+    ["c:#E8D7A8","크림색","고소하고 든든한 느낌",{gosomi:3}],
+    ["c:#E9A1B5","핑크색","상큼하고 화사한 느낌",{pink:3}],
+    ["c:#F0C24B","골드색","순하고 따뜻한 느낌",{gold:3}],
+    ["c:#A8324A","루비색","진하고 깊은 느낌",{ruby:3}]]}
+];
+
+
+/* 사진: 파일을 img/ 폴더에 넣고 경로를 적으면 카드와 상세 창에 나타나요 */
+const EXTRA = {
+  yeondu:{img:"img/yeondu-main.jpg", ingImg:"img/yeondu-ing.jpg", level:"입문 추천", main:"양배추·브로콜리·아보카도", taste:"부드러운 맛", steam:"3~5분", tags:["아보카도 들어감","마트 재료","부드러운 맛"]},
+  green:{img:"", ingImg:"", level:"손질 간편", main:"청경채·브로콜리·아보카도", taste:"깔끔한 맛", steam:"2~3분", tags:["아보카도 들어감","손질이 빠름","깔끔한 맛"]},
+  gosomi:{img:"", ingImg:"", level:"고소한 맛", main:"청경채·콜리플라워·시금치", taste:"고소한 맛", steam:"30초~3분", tags:["아보카도 들어감","냉동 재료 활용","고소한 맛"]},
+  pink:{img:"img/pink-main.jpg", ingImg:"img/pink-ing.jpg", level:"상큼한 맛", main:"콜리플라워·적양배추·토마토", taste:"상큼한 맛", steam:"3~5분", tags:["아보카도 없음","상큼한 맛","예쁜 핑크색"]},
+  gold:{img:"", ingImg:"", level:"순한 맛", main:"콜리플라워·배추·토마토", taste:"순한 맛", steam:"2~5분", tags:["아보카도 없음","단맛은 선택","순한 맛"]},
+  ruby:{img:"", ingImg:"", level:"도전 레시피", main:"배추·청경채·비트", taste:"진한 맛", steam:"2~10분", tags:["아보카도 없음","알룰로스 없음","진한 맛"]}
+};
+/* 아직 쿠팡 링크가 없는 재료: 링크를 넣으면 '쿠팡에서 보기' 버튼이 생겨요 */
+L.bokchoy=["유기농 청경채","https://link.coupang.com/a/iPkvLaSYyO","🥬",""]; L.spinach=["유기농 시금치","https://link.coupang.com/a/iPkQOgOgvZ","🌿",""]; L.tomato=["친환경 인증 토마토","https://link.coupang.com/a/iPkVcees6n","🍅",""]; L.napa=["유기농 배추","https://link.coupang.com/a/iPkZMXx6xU","🥬",""]; L.beet=["무농약 찐 비트","https://link.coupang.com/a/iPlbgY8Jjg","🔴",""];
+const ING_LINK = {"청경채":"bokchoy","시금치":"spinach","토마토":"tomato","배추":"napa","비트":"beet","양배추":"cabbage","브로콜리":"broccoli","아보카도":"avocado","콜리플라워":"cauli","적양배추":"redcab","애호박":"zucchini","레몬즙":"lemon","알룰로스":"allulose"};
+/* 사진이 없는 레시피는 병에 담긴 스무디 그림으로 보여 줘요 */
+function jarSVG(color){
+  let jars='';
+  for(let i=0;i<4;i++){
+    const x=33+i*66, fillTop=88+(i%2?4:0);
+    let marks='',dots='';
+    for(let m=0;m<7;m++){const y=100+m*12;marks+=`<line x1="${x+10}" y1="${y}" x2="${x+(m%2?16:20)}" y2="${y}" stroke="#2b2b2b" stroke-opacity=".55" stroke-width="1"/>`;}
+    for(let d=0;d<14;d++){const dx=x+8+((d*37+i*13)%42), dy=fillTop+6+((d*53+i*7)%78);dots+=`<circle cx="${dx}" cy="${dy}" r="${(d%3)?0.9:1.3}" fill="#000" fill-opacity=".14"/>`;}
+    jars+=`<g>
+      <rect x="${x}" y="70" width="56" height="112" rx="10" fill="#fff" fill-opacity=".55" stroke="#d9dee4"/>
+      <rect x="${x+2}" y="${fillTop}" width="52" height="${180-fillTop}" rx="8" fill="${color}"/>
+      ${dots}${marks}
+      <rect x="${x+44}" y="80" width="4" height="92" rx="2" fill="#fff" fill-opacity=".45"/>
+      <rect x="${x-2}" y="52" width="60" height="22" rx="5" fill="url(#lid)"/>
+      <rect x="${x-2}" y="70" width="60" height="4" fill="#8a9097" fill-opacity=".5"/>
+    </g>`;
+  }
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 200"><defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#eef0f3"/><stop offset=".72" stop-color="#e6e9ed"/><stop offset=".72" stop-color="#f6f7f9"/><stop offset="1" stop-color="#fbfbfc"/></linearGradient>
+    <linearGradient id="lid" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#7d838a"/><stop offset=".35" stop-color="#d7dbe0"/><stop offset=".6" stop-color="#a7adb4"/><stop offset="1" stop-color="#6f757c"/></linearGradient></defs>
+    <rect width="320" height="200" fill="url(#bg)"/>${jars}</svg>`;
+  return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(svg);
+}
+const photo=(k,cls)=>{const e=EXTRA[k],r=R[k];const src=e.img||jarSVG(r.color);return `<div class="ph ${cls||''}" style="background-image:url('${src}')">`};
+const ORDER=['yeondu','green','gosomi','pink','gold','ruby'];
+let step=0; const answers=[];
+const box=document.getElementById('box');
+function go(id){document.getElementById(id).scrollIntoView({behavior:'smooth'})}
+function restart(){step=0;answers.length=0;render();box.scrollIntoView({behavior:'smooth'})}
+function render(){
+  const q=Q[step];
+  const opts=q.o.map((o,i)=>{
+    const icon=o[0].startsWith('c:')?`<span class="dot" style="background:${o[0].slice(2)}"></span>`:`<span class="ic">${o[0]}</span>`;
+    return `<button class="opt${answers[step]===i?' sel':''}" onclick="pick(${i},this)">${icon}<span><b>${o[1]}</b><small>${o[2]}</small></span></button>`;
+  }).join('');
+  box.innerHTML=`
+    <div class="meta"><span>${step+1} / ${Q.length}</span><span>${q.cat}</span></div>
+    <div class="bar"><i style="width:${(step+1)/Q.length*100}%"></i></div>
+    <h2 class="q">${q.q}</h2>
+    <p class="q-help">${q.h}</p>
+    <div class="opts">${opts}</div>
+    <div class="nav-row">
+      <button onclick="back()" ${step===0?'disabled':''}>← 이전</button>
+      <button onclick="restart()">처음부터</button>
+    </div>`;
+}
+function pick(i,el){answers[step]=i;el.classList.add('sel');setTimeout(()=>{if(step<Q.length-1){step++;render()}else finish()},180)}
+function back(){if(step>0){step--;render()}}
+function finish(){
+  const sc={}; ORDER.forEach(k=>sc[k]=0);
+  answers.forEach((a,i)=>{const w=Q[i].o[a][3];for(const k in w)sc[k]+=w[k]});
+  const tie=['yeondu','pink','green','gosomi','gold','ruby'];
+  let best=tie[0]; tie.forEach(k=>{if(sc[k]>sc[best])best=k});
+  showResult(best,true);
+}
+function showResult(key,fromQuiz){
+  const r=R[key],e=EXTRA[key];
+  box.innerHTML=`<div class="rs">${photo(key)}</div>
+    <div class="in"><div class="lbl">나에게 맞는 스무디는</div><h3>${r.name}</h3><p style="color:var(--sub);margin-top:4px">${r.tag}</p>
+      <ul class="why">${r.why.map(x=>`<li>${x}</li>`).join('')}</ul>
+      <button class="btn btn-green" onclick="openSheet('${key}')">레시피 자세히 보기 ›</button>
+      ${FORM_URL?`<a class="btn btn-dark" style="margin-top:10px" href="${FORM_URL}" target="_blank" rel="noopener">🎁 7일 스무디 가이드 무료로 받기</a>`:''}
+      <button class="btn btn-line" style="margin-top:6px" onclick="restart()">다시 해보기</button></div></div>`;
+  box.scrollIntoView({behavior:'smooth'});
+}
+function openSheet(key){
+  const r=R[key],e=EXTRA[key];
+  const ingRows=[...r.ing,...r.base].map(x=>{const lk=L[ING_LINK[x[0]]];const amt=x[1].split(' · ')[0];
+    return `<li><span class="in-n">${x[0]}</span><span class="in-a">${amt}</span>${lk&&lk[1]?`<a href="${lk[1]}" target="_blank" rel="noopener">제품 보기 ›</a>`:'<span></span>'}</li>`}).join('');
+  document.getElementById('sheetScroll').innerHTML=`
+    <div style="position:relative">${photo(key)}</div>
+      <button class="x" onclick="closeSheet()" aria-label="닫기">✕</button></div>
+    <div class="sb">
+      <div class="lbl">십자화과 스무디 · ${e.level}</div>
+      <h3>${r.name}</h3>
+      <p class="desc">${r.tag}. ${e.main}로 만들어요.</p>
+      <p class="small">라이블리 스무디 레시피를 참고했어요.</p>
+
+      <h5>이런 분께 잘 맞아요</h5>
+      <ul class="why">${r.why.map(x=>`<li>${x}</li>`).join('')}</ul>
+
+      <h5>준비 재료</h5>
+      ${e.ingImg?`<img class="ing-img" src="${e.ingImg}" alt="${r.name} 재료">`:''}
+      <ul class="inlist">${ingRows}</ul>
+
+      <h5>만드는 방법</h5>
+      <ol class="tl">${r.prep.map((x,i)=>`<li><span class="st">STEP ${i+1}</span><p>${x}</p></li>`).join('')}</ol>
+
+      <h5>소분 및 보관 방법</h5>
+      <ul class="note-box">
+        <li>✅ 완성된 스무디는 230~250ml씩 1회 섭취량으로 나누어 소분합니다.</li>
+        <li>✅ 냉장 보관: <b>1주일</b> 이내 섭취 권장</li>
+        <li>✅ 김치냉장고 보관: 맛 변화가 더 적게 보관 가능 (추천)</li>
+        <li>✅ 냉동 보관: 대량으로 만들고 필요할 때 드시는 경우 냉동 보관 후 해동하여 섭취</li></ul>
+    </div>`;
+  document.getElementById('sheetBusy').href=BUSY_URL;
+  document.getElementById('ov').classList.add('open');
+  document.body.classList.add('lock');
+  document.getElementById('sheetScroll').scrollTop=0;
+}
+function closeSheet(){document.getElementById('ov').classList.remove('open');document.body.classList.remove('lock')}
+document.addEventListener('keydown',ev=>{if(ev.key==='Escape')closeSheet()});
+document.getElementById('grid').innerHTML=ORDER.map(k=>{const r=R[k],e=EXTRA[k];return `
+  <div class="pc" onclick="openSheet('${k}')">
+    ${photo(k)}</div>
+    <div class="body"><div class="lbl">${e.main} · ${e.taste}</div><h4>${r.name}</h4>
+      <div class="more">레시피 자세히 보기 →</div></div></div>`}).join('');
+const pcard=(ic,name,url,desc,badge)=>`<div class="pcard"><div class="top"><span class="ic">${ic}</span><b>${name}${badge?`<span class="badge">${badge}</span>`:''}</b></div><p>${desc}</p><a href="${url}" target="_blank" rel="noopener">제품 보기 ›</a></div>`;
+document.getElementById('ingAcc').innerHTML=ORDER.map(k=>{const r=R[k],e=EXTRA[k];
+  const items=[...r.ing,...r.base].filter(x=>x[0]!=="물").map(x=>{const lk=L[ING_LINK[x[0]]];const amt=x[1].split(' · ')[0];
+    const icon=lk?lk[2]:'🥄';const name=lk&&lk[1]?lk[0]:x[0];const desc=amt;
+    return `<li><span class="ic">${icon}</span><span class="nm"><b>${name}</b><small>${desc}</small></span>${lk&&lk[1]?`<a href="${lk[1]}" target="_blank" rel="noopener">쿠팡에서 보기 ›</a>`:''}</li>`}).join('');
+  const th=`background-image:url('${e.img||jarSVG(r.color)}')`;
+  return `<details><summary><span class="th" style="${th}"></span><span class="tt"><b>${r.name}</b><small>${e.main}</small></span><span class="chev">⌄</span></summary><ul>${items}</ul></details>`}).join('');
+document.getElementById('toolGrid').innerHTML=TOOLS.map(t=>`<a class="tcard" href="${t[1]}" target="_blank" rel="noopener"><div class="timg"><img src="${t[2]}" alt="${t[0]}" loading="lazy"></div><div class="tb"><span class="tbadge">${t[3]}</span><b>${t[0]}</b><p>${t[4]}</p><span class="tbtn">제품 보기 ›</span></div></a>`).join('');
+render();
+</script>
+</body>
+</html>
